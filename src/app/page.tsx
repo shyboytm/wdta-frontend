@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { type SanityDocument } from "next-sanity";
+import { PortableText, type SanityDocument } from "next-sanity";
 import { client } from "@/sanity/client";
 
-const PODCASTS_QUERY = `*[_type == "podcast" && defined(slug.current)]|order(_createdAt desc)[0...12]{_id, title, slug, player, body}`;
+const PODCASTS_QUERY = `*[_type == "podcast" && defined(slug.current)]|order(_createdAt desc)[0...12]{_id, title, slug, player, transcript, body}`;
 const options = { next: { revalidate: 30 } };
 
 export default async function Home() {
@@ -26,6 +26,9 @@ export default async function Home() {
                 className="mt-2"
                 dangerouslySetInnerHTML={{ __html: podcast.player }}
               />
+            )}
+            {podcast.transcript && Array.isArray(podcast.transcript) && (
+              <PortableText value={podcast.transcript} />
             )}
           </li>
         ))}
