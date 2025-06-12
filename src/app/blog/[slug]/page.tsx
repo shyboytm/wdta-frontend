@@ -13,11 +13,7 @@ const urlFor = (source: SanityImageSource) =>
     : null;
 const options = { next: { revalidate: 30 } };
 
-export default async function PostPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function PostPage({ params }: any) {
   const post = await client.fetch<SanityDocument>(POST_QUERY, params, options);
   const postImageUrl = post?.image
     ? urlFor(post.image)?.width(550).height(310).url()
@@ -54,11 +50,7 @@ export default async function PostPage({
   );
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: any): Promise<Metadata> {
   const post = await client.fetch<SanityDocument>(POST_QUERY, params, options);
   return {
     title: post?.title || "Blog Post",
